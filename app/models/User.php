@@ -17,9 +17,10 @@ class User extends Model{
         if(!$answer){
             return false;
         }
-        else if( hash( 'SHA256', $pass . $answer[0]['pass_salt'] ) 
-            !== $answer[0]['pass_hash']
+        else if( !password_verify($pass, $answer[0]['pass_hash'])/*( 'SHA256', $pass . $answer[0]['pass_hash'] ) */
+            /*!== $answer[0]['pass_hash']*/
         ) {
+            
             return false;
         }
         

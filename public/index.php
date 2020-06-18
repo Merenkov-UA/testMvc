@@ -29,14 +29,7 @@ Router::add('user/getUserBalance', ['controller'=> 'user', 'action'=>'getUserBal
 Router::add('main/loadData', ['controller'=> 'main', 'action'=>'loadData']);
 Router::add('main/deleterecord', ['controller'=> 'main', 'action'=>'deleteRecord']);
 Router::add('main/selectRecord', ['controller'=> 'main', 'action'=>'selectRecord']);
-
-//Router::add('^page/?(?P<action>[a-z-]+)/(?P<alias>[a-z-]+)$', ['controller'=> 'Page']); 
-//Router::add('^page/?/(?P<alias>[a-z-]+)$', ['controller'=> 'Page', 'action'=>'view']); 
 Router::add('^user/(?P<alias>[a-z-]+)$', ['controller'=> 'user', 'action'=>'checkLogin']);
-//Router::add('^user/?checkLogin$', ['controller'=> 'user', 'action'=>'checkLogin']);
-//Router::add('user/logout', ['controller'=> 'user', 'action'=>'logOut']);
-
-
 Router::add('^$', ['controller'=> 'Main', 'action' => 'index']);  // Для пустой строки.
 Router::add('^(?P<controller>[a-z-]+)/?(?P<action>[a-z-]+)?$');
 

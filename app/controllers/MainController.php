@@ -11,6 +11,8 @@ class MainController extends Controller{
 
 	public function indexAction(){
 		$this->layout = 'default';
+		//$this->view->render('main');
+		//$this::getView();
 		session_start();
 		$users = new User();
 		$records = new Record;
@@ -132,19 +134,6 @@ class MainController extends Controller{
 				$dateEdit = $all_records[$x]['dt_edit'];
 			}
 			$amount = $all_records[$x]['amount'];
-
-
-			$actionButton = '<div class="btn-group">
-								<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false">
-									Действие
-									 <span class="caret"></span>
-									 </button>
-								<ul class="dropdown-menu">
-								<li><a type="button" data-toggle="modal" data-target="#editRecordModal" onclick="editRecord('.$all_records[$x]['id'].')"><span class="fa fa-pencil" aria-hidden="true">Изменить</span></a></li>
-								<li><a type="button" data-toggle="modal" data-target="#deleteRecordModal" onclick="deleteRecord('.$all_records[$x]['id'].')"><span class="fa fa-trash" aria-hidden="true">Удалить</span></a></li>
-								</ul>
-								</div>';
 			$ret['data'][] = array(
 				$n,
 				$all_records[$x]['description'],
@@ -152,7 +141,8 @@ class MainController extends Controller{
 				$amount,
 				$all_records[$x]['dt_create'],
 				$dateEdit,
-				$actionButton
+				$all_records[$x]['id'],
+				
 
 			);
 			$n++;

@@ -13,8 +13,6 @@ class UserController extends Controller {
 
 	public function registrationAction(){
 		$user = new User;
-		$this->layout = 'registration';
-
 		$msg = '';
 
 		session_start( ) ;
@@ -84,10 +82,11 @@ class UserController extends Controller {
 			
 			if( empty( $msg ) ) {
 				$salt = md5( rand( ) ) ;
-				$pass = hash( 
+				/*$pass = hash( 
 					'SHA256', 
 					$_POST[ 'pass' ] . $salt 
-				) ;
+				) ;*/
+				$pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 				
 				$sql = "INSERT INTO users (name, email, login, pass_hash, pass_salt, balance )
 				 VALUES ('".$_POST['name']."','".$_POST['email']."','".$_POST['login']."','".$pass."','".$salt."','".$_POST['balance']."')";
@@ -98,18 +97,8 @@ class UserController extends Controller {
 					$msg = $ex->getMessage( ) ;
 					
 				}
-				
-				echo "<script>setInterval(
-									()=>{
-								var v=countdown.innerText-1;
-								if(v<0)window.location='/test1';
-								else countdown.innerText=v
-							},
-							1000
-						)</script>
-						<div class='container' style='text-align:center;'><h1>Данные приняты, через несколько секунд вы окажетесь на главной странице</h1>
-						<p id='countdown'>3</p></div>" ;
-				
+				header( "Location: /test" ) ;
+	
 				
 				session_unset( ) ;
 				exit ;
@@ -121,9 +110,7 @@ class UserController extends Controller {
 		$this->set(compact('msg'));
 	}
 	public function authorizationAction(){
-		$this->layout = 'authorization';
 		$user = new User( ) ;
-
 		$msg = "" ;
 	
 		if( ! empty( $_POST ) ) {
@@ -137,18 +124,9 @@ class UserController extends Controller {
 				if($data)  {
 					$this->layout = false;
 					$_SESSION[ 'userId' ] = $user->id ;
-					echo "<script>setInterval(
-							()=>{
-						var v=countdown.innerText-1;
-						if(v<0)window.location='/test1';
-						else countdown.innerText=v
-					},
-					1000
-				)</script>
-				<div class='container' style='text-align:center;'><h1>Данные приняты, через несколько секунд вы окажетесь на главной странице</h1>
-				<p id='countdown'>3</p></div>" ;
+					header( "Location: /test" ) ;
 
-				exit;
+					exit;
 				} else {
 					unset( $_SESSION[ 'userid' ] ) ;
 					$msg = "Incorrect auth data" ;
@@ -157,6 +135,7 @@ class UserController extends Controller {
 				$msg = $ex->getMessage( ) ;
 			}
 		}
+		$this->set(compact('msg'));
 	}
 	public function checkLoginAction(){
 		$user = new User;
@@ -205,8 +184,6 @@ class UserController extends Controller {
 		{
 			
 				$users= new User();
-
-
 				$user = $users->findOne($_SESSION[ 'userId' ] , 'id');
 				if($user!==true)
 				{
@@ -218,12 +195,11 @@ class UserController extends Controller {
 	}
 
 	public function logOutAction(){
-		$this->layout = 'default';
-		if( isset( $_GET[ 'logout' ] ) ) {
+		$this->layout = false;
+		session_start();
 		unset( $_SESSION[ 'userId' ] ) ;
-		header( "Location: /test1" ) ;
+		header( "Location: /test" ) ;
 		exit ;
-		}
 	}
 
 }

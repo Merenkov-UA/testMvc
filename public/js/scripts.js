@@ -5,7 +5,30 @@ $(document).ready(function() {
 
  table = $('#myTable').DataTable( {
     		"ajax":'main/loadData',
-    		"order" : []
+    		"order" : [],
+    		"columns" : [
+    			["Номер записи" ],
+           	    ["Описание"],
+                ["Операция"],
+                ["Сумма"],
+                ["Дата создания"],
+                ["Дата изменения"],
+                {"data": function(data) {
+       			 	return  '<div class="btn-group">'+
+								'<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"'+
+									'aria-haspopup="true" aria-expanded="false">'+
+									'Действие'+
+									 '<span class="caret"></span>'+
+									' </button>'+
+								'<ul class="dropdown-menu">'+
+								'<li><a type="button" data-toggle="modal" data-target="#editRecordModal" onclick="editRecord('+data[6]+')"><span class="fa fa-pencil" aria-hidden="true">Изменить</span></a></li>'+
+								'<li><a type="button" data-toggle="modal" data-target="#deleteRecordModal" onclick="deleteRecord('+data[6]+')"><span class="fa fa-trash" aria-hidden="true">Удалить</span></a></li>'+
+								'</ul>'+
+								'</div>';
+      			 }},
+               
+    		]
+
 		}).ajax.reload(); 
 /*setInterval( function () {
     table.ajax.reload( null, false ); // user paging is not reset on reload
