@@ -9,10 +9,10 @@ use app\models\Record;
 class MainController extends Controller{
 	public $layout = 'main';
 
+
 	public function indexAction(){
 		$this->layout = 'default';
-		//$this->view->render('main');
-		//$this::getView();
+	
 		session_start();
 		$users = new User();
 		$records = new Record;
@@ -21,12 +21,13 @@ class MainController extends Controller{
 				$this->set(compact('user'));
 				if(!empty($users))
 				$all_records = $records->findAllRecords($_SESSION[ 'userId'], 'id_author'); 
-			else{
+				$this->getViewTest('Главная', compact('user'));
+		}else{
 				$all_records['operation'] = "";
 				$all_records['description'] = "";
 				$all_records['amount'] = "";
+				$this->getViewTest('Главная');
 			}
-		}	
 	}
 
 
@@ -40,7 +41,7 @@ class MainController extends Controller{
 			$description = "";
 			$operation = "";
 			$msg = [];
-			$add_ok = false ;
+			
 
 			try {
 				$user->findOne( $_SESSION[ 'userId' ], 'id' ) ;

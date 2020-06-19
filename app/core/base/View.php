@@ -19,7 +19,8 @@ class View{
 		$this->view = $view;
 	}
 
-	public function render($data){
+	//public function render( $data){
+	public function render($title, $data){
 		if(is_array($data)) extract($data);
 		$file_view = APP."/views/{$this->route['controller']}/{$this->view}.php";
 		ob_start();

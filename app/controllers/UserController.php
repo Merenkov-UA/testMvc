@@ -82,10 +82,7 @@ class UserController extends Controller {
 			
 			if( empty( $msg ) ) {
 				$salt = md5( rand( ) ) ;
-				/*$pass = hash( 
-					'SHA256', 
-					$_POST[ 'pass' ] . $salt 
-				) ;*/
+				
 				$pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 				
 				$sql = "INSERT INTO users (name, email, login, pass_hash, pass_salt, balance )
@@ -107,7 +104,8 @@ class UserController extends Controller {
 			session_unset( ) ;
 			
 		}
-		$this->set(compact('msg'));
+		
+		$this->getViewTest('Регистрация',compact('msg'));
 	}
 	public function authorizationAction(){
 		$user = new User( ) ;
@@ -135,7 +133,10 @@ class UserController extends Controller {
 				$msg = $ex->getMessage( ) ;
 			}
 		}
-		$this->set(compact('msg'));
+
+		
+		$this->getViewTest('Авторизация', compact('msg'));
+
 	}
 	public function checkLoginAction(){
 		$user = new User;
